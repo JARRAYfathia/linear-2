@@ -1,0 +1,110 @@
+//prob 1 sol 1
+ALGORITHM DISTINCT ELEMENTS
+VAR
+    Set1 : ARRAY_OF INTEGER[n];
+    Set2 : ARRAY_OF INTEGER[m];
+    i,j,n,m,sum:INTEGER;
+    count :BOOLEAN;
+    sum :=0;
+BEGIN
+    Read(Set1);
+    Read(Set2);
+    FOR i FROM 0 TO Set1.length-1 STEP 1  DO
+    count:=false;
+        FOR j FROM 0 TO Set2.length-1 STEP 1  DO
+            IF (Set1[i] = Set2[j]) THEN
+                count:=true;
+            END_IF
+        END_FOR
+        IF (count=false) THEN
+            sum += Set1[i];
+        END_IF
+    END_FOR
+    FOR j FROM 0 TO Set2.length-1 STEP 1  DO
+    count:=false;
+        FOR i FROM 0 TO Set1.length-1 STEP 1  DO
+            IF (Set2[j] = Set1[i]) THEN
+                count:=true;
+            END_IF
+        END_FOR
+        IF (count=false) THEN
+            sum += Set2[j];
+        END_IF
+    END_FOR
+ Write('the sum is:', sum);
+
+END
+
+// prob2 sol1
+
+ALGORITHM  COMMON ELEMENTS
+VAR
+    Set1 : ARRAY_OF INTEGER[n];
+    Set2 : ARRAY_OF INTEGER[m];
+    i,j,n,m,sum:INTEGER;
+    count :BOOLEAN;
+BEGIN
+    Read(Set1);
+    Read(Set2);
+    FOR i FROM 0 TO Set1.length-1 STEP 1  DO
+    count:=false;
+        FOR j FROM 0 TO Set2.length-1 STEP 1  DO
+            IF (Set1[i] = Set2[j]) THEN
+                count:=true;
+            END_IF
+        END_FOR
+        IF (count=true) THEN
+            sum += Set1[i];
+        END_IF
+    END_FOR
+    FOR j FROM 0 TO Set2.length-1 STEP 1  DO
+    count:=false;
+        FOR i FROM 0 TO Set1.length-1 STEP 1  DO
+            IF (Set2[j] = Set1[i]) THEN
+                count:=true;
+            END_IF
+        END_FOR
+        IF (count=true) THEN
+            sum += Set2[j];
+        END_IF
+    END_FOR
+END
+
+//prob1 et prob 2 htable
+
+ALGORITHM Htable DISTINCT ELEMENTS
+VAR
+    Set1 : ARRAY_OF INTEGER[n];
+    Set2 : ARRAY_OF INTEGER[m];
+    i,j,count ,sumdistinct,sumcommon: INTEGER;
+    htab : HASH_TABLE<INTEGER,INTEGER>
+BEGIN
+    Read(Set1);
+    Read(Set2);
+    sumdistinct:=0;
+    sumcommon:=0;
+
+    FOR i FROM 0 TO Set1.length-1 STEP 1  DO
+      htab.insert(Set1[i],1);    
+    END_FOR
+
+    FOR j FROM 0 TO Set2.length-1 STEP 1 DO
+    count:=1;
+        IF (htab.lookup(Set2[j]) = true) THEN
+          htab.insert(Set2[j],count+1);
+          ELSE
+           htab.insert(Set2[j],1)
+          END_IF
+    END_FOR
+
+    Set3 := htab.getkeys();
+    sumdistinct:=0;
+    sumcommon:=0;
+    FOR i FROM 0 TO Set3.length-1 STEP 1  DO
+        IF (htab.get(Set3[i] == 1)) THEN
+            sumdistinct += Set3[i];
+        ELSE
+             sumcommon += (Set3[i]*2);
+        END_IF
+    END_FOR
+END
